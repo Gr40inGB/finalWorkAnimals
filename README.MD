@@ -17,5 +17,10 @@ Desktop Documents Downloads  HumanFriends.txt  Music  PackAnimals.txt  Pets.txt 
 3. Работа с MySQL в Linux. “Установить MySQL на вашу вычислительную машину ”
    - Подключить дополнительный репозиторий MySQL и установить один из пакетов из этого репозитория.
 
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+![img_8.png](img_8.png)
+![img_9.png](img_9.png)
+
 4. Управление deb-пакетами
    - Установить и затем удалить deb-пакет, используя команду `dpkg`.
