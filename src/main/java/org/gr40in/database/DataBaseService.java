@@ -1,4 +1,4 @@
-package org.gr40in;
+package org.gr40in.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DataBaseService {
+
+    
     public static Connection getConnection() {
 
         Path DBpath = Path.of("src/main/resources/database.properties");

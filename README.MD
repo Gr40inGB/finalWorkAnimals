@@ -24,3 +24,6 @@ Desktop Documents Downloads  HumanFriends.txt  Music  PackAnimals.txt  Pets.txt 
 
 4. Управление deb-пакетами
    - Установить и затем удалить deb-пакет, используя команду `dpkg`.
+
+![img_10.png](img_10.png)
+![img_11.png](img_11.png)
