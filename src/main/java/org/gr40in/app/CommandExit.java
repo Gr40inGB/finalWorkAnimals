@@ -1,4 +1,4 @@
-package org.gr40in.model;
+package org.gr40in.app;
 
 public class CommandExit extends Commands {
     public CommandExit(ConsoleApp app) {

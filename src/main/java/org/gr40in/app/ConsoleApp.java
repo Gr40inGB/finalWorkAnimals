@@ -1,10 +1,10 @@
-package org.gr40in.model;
+package org.gr40in.app;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleApp {
+public class ConsoleApp implements AppBehavior<String> {
     private List<Commands> menu;
     private boolean run;
 
@@ -13,7 +13,6 @@ public class ConsoleApp {
     public List<Commands> getMenu() {
         return this.menu;
     }
-
 
 
     public boolean isRun() {
@@ -71,10 +70,21 @@ public class ConsoleApp {
 
     }
 
-    private void showMenu() {
+    @Override
+    public void showInfo(String message) {
+
+    }
+
+    @Override
+    public void showMenu() {
         System.out.println("Main menu: ");
         for (int i = 0; i < this.menu.size(); i++) {
             System.out.println("\t" + (i + 1) + ". " + menu.get(i).getName());
         }
+    }
+
+    @Override
+    public String getInfo() {
+        return null;
     }
 }

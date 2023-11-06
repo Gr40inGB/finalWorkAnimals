@@ -1,4 +1,4 @@
-package org.gr40in.model;
+package org.gr40in.app;
 
 public abstract class Commands implements CommandsBehavior {
     private String name;
