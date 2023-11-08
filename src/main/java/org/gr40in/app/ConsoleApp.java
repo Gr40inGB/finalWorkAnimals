@@ -22,7 +22,6 @@ public class ConsoleApp implements AppBehavior<String> {
     public void enterNew() {
         System.out.print("Please enter new Contact\n>>>>> ");
         String userInput = scanner.nextLine();
-
     }
 
 

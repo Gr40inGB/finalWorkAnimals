@@ -22,10 +22,16 @@ CREATE TABLE IF NOT EXISTS human_friends
 CREATE TABLE IF NOT EXISTS commands
 (
     id           BIGINT AUTO_INCREMENT,
-    command_name VARCHAR(50) NOT NULL,
+    command_name VARCHAR(50) NOT NULL UNIQUE,
     CONSTRAINT commands_pk
         PRIMARY KEY (id)
 );
+
+INSERT INTO commands (command_name) VALUES ('sleep');
+INSERT INTO commands (command_name) VALUES ('go');
+INSERT INTO commands (command_name) VALUES ('go away');
+INSERT INTO commands (command_name) VALUES ('be quiet');
+INSERT INTO commands (command_name) VALUES ('lets dance');
 
 CREATE TABLE IF NOT EXISTS one_animal_commands
 (
