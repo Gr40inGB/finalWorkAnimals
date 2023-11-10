@@ -3,7 +3,9 @@ package org.gr40in;
 import org.gr40in.app.ConsoleApp;
 import org.gr40in.database.DataBaseService;
 import org.gr40in.database.UtilsCRUD;
+import org.gr40in.model.Cat;
 import org.gr40in.model.Dog;
+import org.gr40in.model.Horse;
 import org.gr40in.model.HumanFriends;
 
 import java.sql.Connection;
@@ -34,8 +36,14 @@ public class Main {
 //        app.run();
 
         HumanFriends dog1 = new Dog();
+        HumanFriends cat1 = new Cat();
+        HumanFriends cat2 = new Cat();
+        HumanFriends horse1 = new Horse();
 //        System.out.println(dog1.getClass().getSuperclass());
-        create_animal_types(dog1.getClass());
+        create_animal_types(dog1);
+        create_animal_types(cat1);
+        create_animal_types(cat2);
+        create_animal_types(horse1);
 
 //        System.out.println(UtilsCRUD.type_exist("asfa"));
 
@@ -57,14 +65,13 @@ public class Main {
 
     }
 
-    public static void create_animal_types(Class oneHumanFriends) {
+    public static void create_animal_types(HumanFriends oneHumanFriends) {
         List<String> treeList = new ArrayList<>();
-        Class startClass = oneHumanFriends;
+        Class startClass = oneHumanFriends.getClass();
         while (!startClass.getSimpleName().equals("Object")) {
             treeList.addFirst(startClass.getSimpleName());
             startClass = startClass.getSuperclass();
         }
-
-        System.out.println(treeList);
+        UtilsCRUD.createAnimalType(treeList);
     }
 }

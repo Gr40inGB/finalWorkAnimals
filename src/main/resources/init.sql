@@ -4,26 +4,14 @@ USE human_friends_db;
 CREATE TABLE IF NOT EXISTS type_of_animal
 (
     id        BIGINT AUTO_INCREMENT PRIMARY KEY,
-    type_name VARCHAR(50) NOT NULL UNIQUE
+    type_name VARCHAR(50) NOT NULL UNIQUE,
+    parent    BIGINT      NULL,
+        CONSTRAINT type_of_animal_type_of_animal_id_fk
+        FOREIGN KEY (parent) REFERENCES type_of_animal (id)
 );
 
 INSERT IGNORE INTO type_of_animal (type_name)
 VALUES ('HumanFriends');
-
-
-CREATE TABLE IF NOT EXISTS type_of_animal_tree
-(
-    parent BIGINT null,
-    child  BIGINT null UNIQUE,
-    CONSTRAINT type_of_animal_tree_type_of_animal_id_fk
-        FOREIGN KEY (parent) REFERENCES type_of_animal (id),
-    CONSTRAINT type_of_animal_tree_type_of_animal_id_fk2
-        FOREIGN KEY (child) REFERENCES type_of_animal (id)
-);
-
-INSERT IGNORE INTO type_of_animal_tree (parent, child)
-VALUES (null, 1);
-
 
 CREATE TABLE IF NOT EXISTS human_friends
 (
