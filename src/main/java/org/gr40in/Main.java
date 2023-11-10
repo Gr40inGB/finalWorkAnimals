@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,9 +34,10 @@ public class Main {
 //        app.run();
 
         HumanFriends dog1 = new Dog();
+//        System.out.println(dog1.getClass().getSuperclass());
         create_animal_types(dog1.getClass());
 
-        System.out.println(UtilsCRUD.type_exist("asfa"));
+//        System.out.println(UtilsCRUD.type_exist("asfa"));
 
 
 //        System.out.println(dog1.getClass().getSuperclass().getSuperclass());
@@ -54,16 +58,13 @@ public class Main {
     }
 
     public static void create_animal_types(Class oneHumanFriends) {
-
-        if (oneHumanFriends.getSimpleName().equals("Object")) {
-            if (!UtilsCRUD.type_exist(oneHumanFriends.getSimpleName())){
-
-            }
-        } else {
-            create_animal_types(oneHumanFriends.getSuperclass());
-            System.out.println(oneHumanFriends.getSimpleName());
+        List<String> treeList = new ArrayList<>();
+        Class startClass = oneHumanFriends;
+        while (!startClass.getSimpleName().equals("Object")) {
+            treeList.addFirst(startClass.getSimpleName());
+            startClass = startClass.getSuperclass();
         }
 
-
+        System.out.println(treeList);
     }
 }

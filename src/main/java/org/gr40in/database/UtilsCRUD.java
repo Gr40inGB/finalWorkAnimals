@@ -3,13 +3,14 @@ package org.gr40in.database;
 import org.gr40in.model.HumanFriends;
 
 import java.sql.*;
+import java.util.List;
 
 public class UtilsCRUD {
     public static void createAnimal(HumanFriends humanFriends) {
 
     }
 
-    public static void createAnimalType(String classOfAnimalType){
+    public static void createAnimalType(List<String> treeList){
 
     }
 
