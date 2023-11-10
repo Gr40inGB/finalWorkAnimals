@@ -1,6 +1,7 @@
 package org.gr40in;
 
 import org.gr40in.app.ConsoleApp;
+import org.gr40in.controller.Controller;
 import org.gr40in.database.DataBaseService;
 import org.gr40in.database.UtilsCRUD;
 import org.gr40in.model.Cat;
@@ -32,18 +33,17 @@ public class Main {
 //            throw new RuntimeException(e);
 //        }
 
-//        ConsoleApp app = new ConsoleApp();
-//        app.run();
+        new Controller().runApp();
 
-        HumanFriends dog1 = new Dog();
-        HumanFriends cat1 = new Cat();
-        HumanFriends cat2 = new Cat();
-        HumanFriends horse1 = new Horse();
-//        System.out.println(dog1.getClass().getSuperclass());
-        create_animal_types(dog1);
-        create_animal_types(cat1);
-        create_animal_types(cat2);
-        create_animal_types(horse1);
+//        HumanFriends dog1 = new Dog();
+//        HumanFriends cat1 = new Cat();
+//        HumanFriends cat2 = new Cat();
+//        HumanFriends horse1 = new Horse();
+////        System.out.println(dog1.getClass().getSuperclass());
+//        create_animal_types(dog1);
+//        create_animal_types(cat1);
+//        create_animal_types(cat2);
+//        create_animal_types(horse1);
 
 //        System.out.println(UtilsCRUD.type_exist("asfa"));
 

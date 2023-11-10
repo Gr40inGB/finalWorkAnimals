@@ -1,12 +1,18 @@
 package org.gr40in.app;
 
+import org.gr40in.controller.Controller;
+
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ConsoleApp implements AppBehavior<String> {
+public class ConsoleApp implements App<String> {
     private List<Commands> menu;
     private boolean run;
+
+    private Controller controller;
+
 
     Scanner scanner = new Scanner(System.in);
 
@@ -34,6 +40,7 @@ public class ConsoleApp implements AppBehavior<String> {
         this.run = false;
     }
 
+    @Override
     public void run() {
         while (this.isRun()) {
             showMenu();
@@ -60,7 +67,13 @@ public class ConsoleApp implements AppBehavior<String> {
         return rezult;
     }
 
-    public ConsoleApp() {
+    @Override
+    public Controller getController() {
+        return controller;
+    }
+
+    public ConsoleApp(Controller controller) {
+        this.controller = controller;
         this.run = true;
         this.menu = new ArrayList<>();
         menu.add(new CommandInputNew(this));
@@ -84,6 +97,8 @@ public class ConsoleApp implements AppBehavior<String> {
 
     @Override
     public String getInfo() {
-        return null;
+        return this.scanner.nextLine();
     }
+
+
 }

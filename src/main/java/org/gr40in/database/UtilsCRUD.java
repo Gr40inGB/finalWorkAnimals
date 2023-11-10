@@ -33,6 +33,8 @@ public class UtilsCRUD {
         }
     }
 
+
+
     public static boolean type_exist(String classOfAnimalType) {
         String query = "SELECT id FROM type_of_animal where type_name=?";
         try (Connection connection = DataBaseService.getConnection()) {

@@ -6,12 +6,47 @@ CREATE TABLE IF NOT EXISTS type_of_animal
     id        BIGINT AUTO_INCREMENT PRIMARY KEY,
     type_name VARCHAR(50) NOT NULL UNIQUE,
     parent    BIGINT      NULL,
-        CONSTRAINT type_of_animal_type_of_animal_id_fk
+    CONSTRAINT type_of_animal_type_of_animal_id_fk
         FOREIGN KEY (parent) REFERENCES type_of_animal (id)
 );
 
 INSERT IGNORE INTO type_of_animal (type_name)
 VALUES ('HumanFriends');
+
+SELECT id
+INTO @id
+FROM type_of_animal
+WHERE type_name = 'HumanFriends';
+
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('PackAnimals', @id);
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Pets', @id);
+
+SELECT id
+INTO @id
+FROM type_of_animal
+WHERE type_name = 'PackAnimals';
+
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Camel', @id);
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Donkey', @id);
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Horse', @id);
+
+SELECT id
+INTO @id
+FROM type_of_animal
+WHERE type_name = 'Pets';
+
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Cat', @id);
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Dog', @id);
+INSERT IGNORE INTO type_of_animal (type_name, parent)
+VALUES ('Hamster', @id);
+
 
 CREATE TABLE IF NOT EXISTS human_friends
 (

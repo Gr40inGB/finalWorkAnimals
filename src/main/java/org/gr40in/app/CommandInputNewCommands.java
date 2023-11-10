@@ -3,8 +3,8 @@ package org.gr40in.app;
 import org.gr40in.model.AnimalService;
 import org.gr40in.model.HumanFriends;
 
-public class CommandInputNew extends Commands {
-    public CommandInputNew(ConsoleApp app) {
+public class CommandInputNewCommands extends Commands {
+    public CommandInputNewCommands(ConsoleApp app) {
         super("Input new: ", app);
     }
 
