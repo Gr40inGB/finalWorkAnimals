@@ -8,7 +8,5 @@ public class CommandShowAllCommands extends Commands {
     @Override
     public void run() {
 
-
-
     }
 }

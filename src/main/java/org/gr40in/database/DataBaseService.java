@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.*;
+import java.util.List;
 import java.util.Properties;
 
 public class DataBaseService {
@@ -34,20 +35,30 @@ public class DataBaseService {
         return resultConnection;
     }
 
-    public static void initDataBase(){
-        String query = "CREATE DATABASE IF NOT EXISTS human_friends;";
-        Connection connection = DataBaseService.getConnection();
+    public static void initDataBase() {
+
+        Path sqlInitFile = Path.of("src/main/resources/init.sql");
+        List<String> tempList = null;
+        String query = "";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("Database"));
+            tempList = Files.readAllLines(sqlInitFile);
+            for (String line : tempList) {
+                query = query + line;
             }
-        } catch (SQLException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+//        Connection connection = DataBaseService.getConnection();
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(query);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                System.out.println(resultSet.getString("Database"));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
-
-
 
 }

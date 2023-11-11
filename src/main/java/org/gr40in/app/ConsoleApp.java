@@ -25,15 +25,6 @@ public class ConsoleApp implements App<String> {
         return run;
     }
 
-    public void enterNew() {
-        System.out.print("Please enter new Contact\n>>>>> ");
-        String userInput = scanner.nextLine();
-    }
-
-
-    public void showAll() {
-
-    }
 
     public void exit() {
         System.out.println("buy buy ;)");
@@ -78,6 +69,9 @@ public class ConsoleApp implements App<String> {
         this.menu = new ArrayList<>();
         menu.add(new CommandInputNew(this));
         menu.add(new CommandShowAll(this));
+        menu.add(new CommandShowAllCommands(this));
+        menu.add(new CommandInputNewCommands(this));
+        menu.add(new CommandgetCounts(this));
         menu.add(new CommandExit(this));
 
     }

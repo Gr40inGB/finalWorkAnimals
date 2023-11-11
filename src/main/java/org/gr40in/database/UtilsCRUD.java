@@ -6,19 +6,19 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UtilsCRUD {
     public static List<HumanFriends> getAllFriends() {
         List<HumanFriends> allHumanFriends = new ArrayList<>();
 
-
-        String query = "SELECT * FROM human_friends GROUP BY animal_type";
+        String query = "SELECT * FROM human_friends_db.human_friends";
 
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
             ResultSet resultSet = prepareStatement.executeQuery();
             while (resultSet.next()) {
-                HumanFriends tempLink;
+                HumanFriends tempLink = null;
                 Long animalTypeID = resultSet.getLong("animal_type");
                 String type = UtilsCRUD.getTypeName(animalTypeID);
                 switch (type) {
@@ -29,20 +29,21 @@ public class UtilsCRUD {
                     case "Camel" -> tempLink = new Camel();
                     case "Donkey" -> tempLink = new Donkey();
                 }
-                tempLink.se
 
                 Long id = resultSet.getLong("id");
                 Date tempDate = resultSet.getDate("birth_DATE");
+                LocalDate tempLocalDate = new java.sql.Date(tempDate.getTime()).toLocalDate();
                 List<AnimalCommands> commandsList = UtilsCRUD.getAllCommands(id);
 
-                allHumanFriends.add(new HumanFriends(
-                        id,
-                        resultSet.getString("name"),
-                        new java.sql.Date(tempDate.getTime()).toLocalDate(),
-                        commandsList
+                tempLink.setHumanFriendsId(id);
+                tempLink.setName(resultSet.getString("name"));
+                tempLink.setBirthDay(tempLocalDate);
+                tempLink.setCommands(commandsList);
 
-                ));
+                allHumanFriends.add(tempLink);
             }
+            return allHumanFriends;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +52,7 @@ public class UtilsCRUD {
     public static List<AnimalCommands> getAllCommands(Long animalId) {
 
         List<AnimalCommands> animalCommandsList = new ArrayList<>();
-        String query = "SELECT * FROM commands WHERE id = ? ORDER BY command_name";
+        String query = "SELECT * FROM human_friends_db.commands WHERE id = ? ORDER BY command_name";
 
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -73,7 +74,7 @@ public class UtilsCRUD {
     public static void createAnimal(HumanFriends oneHumanFriends) {
         UtilsCRUD.create_animal_types(oneHumanFriends);
 
-        String query = "INSERT IGNORE INTO human_friends (name, birth_DATE, animal_type) VALUES (?,?,?)";
+        String query = "INSERT IGNORE INTO human_friends_db.human_friends (name, birth_DATE, animal_type) VALUES (?,?,?)";
 
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -108,7 +109,7 @@ public class UtilsCRUD {
 
         Long parentId = getParentId(animalParent);
 
-        String query = "INSERT IGNORE INTO type_of_animal (type_name, parent) VALUES (?,?)";
+        String query = "INSERT IGNORE INTO human_friends_db.type_of_animal (type_name, parent) VALUES (?,?)";
 
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -122,7 +123,7 @@ public class UtilsCRUD {
 
 
     public static boolean type_exist(String classOfAnimalType) {
-        String query = "SELECT id FROM type_of_animal where type_name=?";
+        String query = "SELECT id FROM human_friends_db.type_of_animal where type_name=?";
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, classOfAnimalType);
@@ -134,7 +135,7 @@ public class UtilsCRUD {
     }
 
     public static Long getParentId(String animalTypeParentId) {
-        String query = "SELECT id FROM type_of_animal where type_name=?";
+        String query = "SELECT id FROM human_friends_db.type_of_animal where type_name=?";
         Long result = 0L;
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -148,7 +149,7 @@ public class UtilsCRUD {
     }
 
     public static Long getTypeId(HumanFriends animal) {
-        String query = "SELECT id FROM type_of_animal where type_name=?";
+        String query = "SELECT id FROM human_friends_db.type_of_animal where type_name=?";
         Long result = 0L;
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -162,7 +163,7 @@ public class UtilsCRUD {
     }
 
     public static String getTypeName(Long animalTypeID) {
-        String query = "SELECT type_name FROM type_of_animal where id=?";
+        String query = "SELECT type_name FROM human_friends_db.type_of_animal where id=?";
         String result = "";
         try (Connection connection = DataBaseService.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
