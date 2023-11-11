@@ -42,7 +42,26 @@ public abstract class HumanFriends {
         return commands;
     }
 
+    public Long getHumanFriendsId() {
+        return humanFriendsId;
+    }
+
+    public void setHumanFriendsId(Long humanFriendsId) {
+        this.humanFriendsId = humanFriendsId;
+    }
+
+    public void addCommand(AnimalCommands commands) {
+        this.commands.add(commands);
+    }
+
     public void setCommands(List<AnimalCommands> commands) {
+        this.commands = commands;
+    }
+
+    public HumanFriends(Long humanFriendsId, String name, LocalDate birthDay, List<AnimalCommands> commands) {
+        this.humanFriendsId = humanFriendsId;
+        this.name = name;
+        this.birthDay = birthDay;
         this.commands = commands;
     }
 

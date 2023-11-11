@@ -7,6 +7,6 @@ public class CommandShowAll extends Commands {
 
     @Override
     public void run() {
-        getApp().showAll();
+
     }
 }

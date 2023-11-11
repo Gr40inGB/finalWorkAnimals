@@ -30,7 +30,6 @@ public class AnimalService {
                     case "Camel" -> tempLink = new Camel();
                     case "Donkey" -> tempLink = new Donkey();
                 }
-
             } else if (s.matches("[a-zA-Zа-яА-Я]+")) {
                 tempLink.setName(s);
             } else if

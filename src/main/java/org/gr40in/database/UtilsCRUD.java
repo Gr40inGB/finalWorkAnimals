@@ -1,14 +1,101 @@
 package org.gr40in.database;
 
-import org.gr40in.model.HumanFriends;
+import org.gr40in.model.*;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UtilsCRUD {
-    public static void createAnimal(HumanFriends humanFriends) {
+    public static List<HumanFriends> getAllFriends() {
+        List<HumanFriends> allHumanFriends = new ArrayList<>();
 
+
+        String query = "SELECT * FROM human_friends GROUP BY animal_type";
+
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                HumanFriends tempLink;
+                Long animalTypeID = resultSet.getLong("animal_type");
+                String type = UtilsCRUD.getTypeName(animalTypeID);
+                switch (type) {
+                    case "Dog" -> tempLink = new Dog();
+                    case "Cat" -> tempLink = new Cat();
+                    case "Hamster" -> tempLink = new Hamster();
+                    case "Horse" -> tempLink = new Horse();
+                    case "Camel" -> tempLink = new Camel();
+                    case "Donkey" -> tempLink = new Donkey();
+                }
+                tempLink.se
+
+                Long id = resultSet.getLong("id");
+                Date tempDate = resultSet.getDate("birth_DATE");
+                List<AnimalCommands> commandsList = UtilsCRUD.getAllCommands(id);
+
+                allHumanFriends.add(new HumanFriends(
+                        id,
+                        resultSet.getString("name"),
+                        new java.sql.Date(tempDate.getTime()).toLocalDate(),
+                        commandsList
+
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    public static List<AnimalCommands> getAllCommands(Long animalId) {
+
+        List<AnimalCommands> animalCommandsList = new ArrayList<>();
+        String query = "SELECT * FROM commands WHERE id = ? ORDER BY command_name";
+
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setLong(1, animalId);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            while (resultSet.next()) {
+                animalCommandsList.add(new AnimalCommands(
+                        resultSet.getLong("id"),
+                        resultSet.getString("command_name")
+                ));
+            }
+            return animalCommandsList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void createAnimal(HumanFriends oneHumanFriends) {
+        UtilsCRUD.create_animal_types(oneHumanFriends);
+
+        String query = "INSERT IGNORE INTO human_friends (name, birth_DATE, animal_type) VALUES (?,?,?)";
+
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setString(1, oneHumanFriends.getName());
+            prepareStatement.setDate(2, Date.valueOf(oneHumanFriends.getBirthDay()));
+            prepareStatement.setLong(3, UtilsCRUD.getTypeId(oneHumanFriends));
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void create_animal_types(HumanFriends oneHumanFriends) {
+        List<String> treeList = new ArrayList<>();
+        Class startClass = oneHumanFriends.getClass();
+        while (!startClass.getSimpleName().equals("Object")) {
+            treeList.addFirst(startClass.getSimpleName());
+            startClass = startClass.getSuperclass();
+        }
+        createAnimalType(treeList);
+    }
+
 
     public static void createAnimalType(List<String> treeList) {
         System.out.println(treeList);
@@ -34,7 +121,6 @@ public class UtilsCRUD {
     }
 
 
-
     public static boolean type_exist(String classOfAnimalType) {
         String query = "SELECT id FROM type_of_animal where type_name=?";
         try (Connection connection = DataBaseService.getConnection()) {
@@ -54,10 +140,40 @@ public class UtilsCRUD {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, animalTypeParentId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())  result = resultSet.getLong("id");
+            if (resultSet.next()) result = resultSet.getLong("id");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return result;
     }
+
+    public static Long getTypeId(HumanFriends animal) {
+        String query = "SELECT id FROM type_of_animal where type_name=?";
+        Long result = 0L;
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, animal.getClass().getSimpleName());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) result = resultSet.getLong("id");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public static String getTypeName(Long animalTypeID) {
+        String query = "SELECT type_name FROM type_of_animal where id=?";
+        String result = "";
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, animalTypeID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) result = resultSet.getString("type_name");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
 }

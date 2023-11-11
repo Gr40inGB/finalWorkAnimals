@@ -4,10 +4,7 @@ import org.gr40in.app.ConsoleApp;
 import org.gr40in.controller.Controller;
 import org.gr40in.database.DataBaseService;
 import org.gr40in.database.UtilsCRUD;
-import org.gr40in.model.Cat;
-import org.gr40in.model.Dog;
-import org.gr40in.model.Horse;
-import org.gr40in.model.HumanFriends;
+import org.gr40in.model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +32,7 @@ public class Main {
 
         new Controller().runApp();
 
-//        HumanFriends dog1 = new Dog();
+
 //        HumanFriends cat1 = new Cat();
 //        HumanFriends cat2 = new Cat();
 //        HumanFriends horse1 = new Horse();
@@ -62,16 +59,6 @@ public class Main {
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
 //        }
-
     }
 
-    public static void create_animal_types(HumanFriends oneHumanFriends) {
-        List<String> treeList = new ArrayList<>();
-        Class startClass = oneHumanFriends.getClass();
-        while (!startClass.getSimpleName().equals("Object")) {
-            treeList.addFirst(startClass.getSimpleName());
-            startClass = startClass.getSuperclass();
-        }
-        UtilsCRUD.createAnimalType(treeList);
-    }
 }
