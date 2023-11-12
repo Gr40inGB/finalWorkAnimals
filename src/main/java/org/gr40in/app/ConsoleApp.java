@@ -2,7 +2,6 @@ package org.gr40in.app;
 
 import org.gr40in.controller.Controller;
 
-import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -71,7 +70,7 @@ public class ConsoleApp implements App<String> {
         menu.add(new CommandShowAll(this));
         menu.add(new CommandShowAllCommands(this));
         menu.add(new CommandInputNewCommands(this));
-        menu.add(new CommandgetCounts(this));
+        menu.add(new CommandGetCounts(this));
         menu.add(new CommandExit(this));
 
     }
