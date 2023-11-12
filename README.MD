@@ -282,6 +282,71 @@ public class UtilsCRUD {
         }
         return result;
     }
-}
 
+    public static void createNewCommand(String commandName, HumanFriends humanFriends) {
+        if (!commandExist(commandName)) commandCreate(commandName);
+        String query = "INSERT INTO one_animal_commands (animal_id, command_id) VALUES (?,?)";
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, humanFriends.getHumanFriendsId());
+            preparedStatement.setLong(2, commandId(commandName));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean commandExist(String commandName) {
+
+        String query = "SELECT id FROM human_friends_db.commands where command_name=?";
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, commandName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return (resultSet.next());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void commandCreate(String commandName) {
+
+        String query = "INSERT IGNORE INTO human_friends_db.commands (command_name) VALUES (?)";
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, commandName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Long commandId(String commandName) {
+        String query = "SELECT id FROM human_friends_db.commands where command_name=?";
+        Long result = -100L;
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, commandName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) result = resultSet.getLong("id");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+
+    public static int getAnimalCount() {
+        String query = "SELECT COUNT(*) as count FROM human_friends_db.human_friends";
+        int result = 0;
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) result = resultSet.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+}
 ```
