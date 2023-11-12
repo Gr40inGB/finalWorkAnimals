@@ -229,6 +229,19 @@ public class UtilsCRUD {
     }
 
 
+    public static int getAnimalCount() {
+        String query = "SELECT COUNT(*) as count FROM human_friends_db.human_friends";
+        int result = 0;
+        try (Connection connection = DataBaseService.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) result = resultSet.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 }
 
 
