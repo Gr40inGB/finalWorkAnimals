@@ -30,8 +30,13 @@ Desktop Documents Downloads  HumanFriends.txt  Music  PackAnimals.txt  Pets.txt 
 
 
 Работы с MySQL и ООП я объединил в единую программу.
+
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
+
+Файл для инициалиазации базы
+
 [init.sql](src%2Fmain%2Fresources%2Finit.sql)
-Файл для инициалиазации базы, если её не существует.
 
 Запускается по данным из Properties
 
