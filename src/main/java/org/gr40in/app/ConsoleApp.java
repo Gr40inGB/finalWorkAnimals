@@ -40,7 +40,8 @@ public class ConsoleApp implements App<String> {
         }
     }
 
-    private int inputNumber(String welcome, int biggest) {
+    public int inputNumber(String welcome, int biggest) {
+
         boolean inputError = true;
         int rezult = 0;
         while (inputError) {
@@ -77,7 +78,7 @@ public class ConsoleApp implements App<String> {
 
     @Override
     public void showInfo(String message) {
-
+        System.out.print(message);
     }
 
     @Override

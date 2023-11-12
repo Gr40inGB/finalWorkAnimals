@@ -14,9 +14,10 @@ public class CommandShowAll extends Commands {
     public void run() {
 
         List<HumanFriends> humanFriendsList = UtilsCRUD.getAllFriends();
+        StringBuilder sb = new StringBuilder("All animals: \n");
         for (HumanFriends friends : humanFriendsList) {
-            System.out.println(friends);
+            sb.append(friends).append("/n");
         }
-
+        getApp().showInfo(sb.toString());
     }
 }
